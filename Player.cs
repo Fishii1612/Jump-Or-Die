@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,44 +12,48 @@ namespace Jump_or_die
 {
     public class Player
     {
-        private Texture2D Texture;
+        private Game1 game1;
+
+        private Texture2D texture1;
+
+        public Rectangle PlayerHitbox;
 
         public int PlayerPosY;
 
         public bool IsJumping = false;
-        public bool JumpUp = false;
-        public bool JumpDown = false;
 
         public int JumpCount = 0;
-        public Player(Texture2D texture)
+        public Player(Game1 game, Texture2D texture)
         {
-            Texture = texture;
             PlayerPosY = 300 - texture.Height;
+            game1 = game;
+            texture1 = texture;
         }
         public void Update()
         {
             KeyboardState keyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
 
+            PlayerHitbox = new Rectangle(game1.PlayerPosX, PlayerPosY, texture1.Width / 4, texture1.Height);
+
             if (keyboardState.IsKeyDown(Keys.Space) && IsJumping == false)
                 IsJumping = true;
             if (IsJumping)
                 Jump();
-
         }
         private void Jump()
         {
-            if(JumpCount < 30)
+            if(JumpCount < 60)
             {
                 JumpCount++;
                 PlayerPosY--;
             }
-            if(JumpCount >= 30 && JumpCount <= 60)
+            if(JumpCount >= 60 && JumpCount <= 120)
             {
                 JumpCount++;
                 PlayerPosY++;
             }
-            if (JumpCount == 60)    //Reset
+            if (JumpCount == 120)    //Reset
             {
                 IsJumping = false;
                 JumpCount = 0;
