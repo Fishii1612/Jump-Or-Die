@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +12,14 @@ namespace Jump_or_die
 {
     public class CollisionDetection
     {
-        public static bool CollisionCheck(Rectangle A, Rectangle B)     //Thank you ManBeardGames -> https://manbeardgames.com/docs/tutorials/monogame-3-8/collision-detection/aabb-collision/
+        private Rectangle A;
+        private Rectangle B;
+        public CollisionDetection(Rectangle AA, Rectangle BB)
+        {
+            A = AA;
+            B = BB;
+        }
+        public bool CollisionCheck()     //Thank you ManBeardGames -> https://manbeardgames.com/docs/tutorials/monogame-3-8/collision-detection/aabb-collision/
         {
             return A.Left < B.Right &&
             A.Right > B.Left &&
