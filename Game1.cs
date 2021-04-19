@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,17 +33,18 @@ namespace Jump_or_die
         private Obstacles obstacles;
         private AnimatedSprite animatedSprite;
         private Player player;
+        private CollisionDetection collisionDetection;
 
         private bool UserPlaying;
         public int Score = 0;       //Scoreeee
         private bool ShowInfo;
         public bool ObstacleHit;
+        public readonly int PlayerPosX = 20;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            //obstacles = new Obstacles(this, TObstacle);
         }
 
         protected override void Initialize()
@@ -77,7 +78,7 @@ namespace Jump_or_die
 
             animatedSprite = new AnimatedSprite(TCharacter, 1, 8);
 
-            player = new Player(TCharacter);
+            player = new Player(this, TCharacter);
 
             obstacles = new Obstacles(this, TObstacle);
 
@@ -95,14 +96,14 @@ namespace Jump_or_die
             if (keyboardState.IsKeyDown(Keys.Space))
                 UserPlaying = true;
 
-            if (keyboardState.IsKeyDown(Keys.F1))
+            if (keyboardState.IsKeyDown(Keys.F1))   //Infos for me
                 ShowInfo = true;
             else 
             { 
                 ShowInfo = false; 
             }
 
-            if (UserPlaying)
+            if (UserPlaying)        //Ingame Updates
             {
                 player.Update();
                 animatedSprite.Update();
@@ -151,7 +152,6 @@ namespace Jump_or_die
         }
         private void DrawPlayer()
         {
-            if(UserPlaying)
                 animatedSprite.Draw(spriteBatch, new Vector2(20, player.PlayerPosY));
         }
         private void DrawInfo()
@@ -165,7 +165,20 @@ namespace Jump_or_die
         }
         private void CollisionDetection()
         {
-
+            for(int i = 0; i < obstacles.ExistingObstacles.Count; i++)
+            {
+                collisionDetection = new CollisionDetection(player.PlayerHitbox, obstacles.ExistingObstacles[i].ObstacleHitbox);
+                collisionDetection.CollisionCheck();
+                if(collisionDetection.CollisionCheck() == true)
+                {
+                    ObstacleHit = true;
+                    return;
+                }
+                else
+                {
+                    ObstacleHit = false;
+                }
+            }
         }
     }
 }
