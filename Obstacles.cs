@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +19,7 @@ namespace Jump_or_die
         public Obstacles(Game1 game, Texture2D texture)
         {
             game1 = game;
+            TObstacle = texture;
         }
         public void ObstacleUpdate()
         {
@@ -31,7 +32,11 @@ namespace Jump_or_die
                 GenerateRandomObstaclesInterval();
             }
             KillObstacle();
-            PositionUpdate();
+
+            for (int i = 0; i < ExistingObstacles.Count; i++)
+            {
+                ExistingObstacles[i].Update();
+            }
         }
         private void GenerateRandomObstaclesInterval()
         {
@@ -40,7 +45,7 @@ namespace Jump_or_die
         }
         private void AddObstacle()
         {
-            ExistingObstacles.Add(new Obstacle(game1.screenWidth));
+            ExistingObstacles.Add(new Obstacle(game1.screenWidth, TObstacle));
         }
         private void KillObstacle()
         {
@@ -51,11 +56,6 @@ namespace Jump_or_die
                     ExistingObstacles.RemoveAt(i);
                 }
             }
-        }
-        private void PositionUpdate()
-        {
-            for (int i = 0; i < ExistingObstacles.Count; i++)
-                ExistingObstacles[i].Position--;
         }
     }
 }
