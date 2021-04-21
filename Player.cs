@@ -34,7 +34,7 @@ namespace Jump_or_die
             KeyboardState keyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
 
-            PlayerHitbox = new Rectangle(game1.PlayerPosX, PlayerPosY, texture1.Width / 4, texture1.Height);
+            PlayerHitbox = new Rectangle(game1.PlayerPosX, PlayerPosY, texture1.Width / 8, texture1.Height);
 
             if (keyboardState.IsKeyDown(Keys.Space) && IsJumping == false)
                 IsJumping = true;
